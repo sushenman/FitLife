@@ -1,14 +1,16 @@
+
 import 'package:fitlife/Screens/Login/login.dart';
 import 'package:fitlife/Screens/bottom_navigation.dart';
 import 'package:fitlife/Screens/Profile/profile.dart';
 import 'package:fitlife/Screens/step_counter.dart';
-import 'package:fitlife/Signup/sign_up.dart';
+import 'package:fitlife/Signup/user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:fitlife/Screens/Login/loginorsignup.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'Firebase/firebase_options.dart';
-import 'Screens/Fitness.dart';
+import 'Fitness/Fitness.dart';
+import 'Signup/sign_up.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -29,11 +31,8 @@ class MyApp extends StatelessWidget {
         //add theme
 
         body: Center(
-           //call profile.dart
-
-          child: fitnessVideo(),
+          child: UserDetails(),
          //add theme
-
         ),
       ),
     );

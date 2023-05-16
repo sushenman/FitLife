@@ -1,10 +1,8 @@
-
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-
-import '../Screens/home.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -14,177 +12,151 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  TextEditingController _nameController = TextEditingController();
+  
+  TextEditingController _userNameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  bool obscureText= true;
+ //firebase auth
+  void dispose(){
+    _userNameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+  Future<void> _register() async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _userNameController.text,
+        password: _passwordController.text,
+          );
+   //send email verification
+   await userCredential.user!.sendEmailVerification();   
 
+   
+      //display in screen that registration is successful
+      var success= 'Registration Successful: ${userCredential.user}';
+    } on FirebaseAuthException catch (e) {
+      // Registration failed, handle the error scenario here
+      print('Registration Failed: $e');
+      var success= 'Registration Failed: $e';
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    //create an function to store 1 to 100
-    List<int> numbers = List.generate(100, (index) => index + 1);
-  final _formkey = GlobalKey<FormState>();
     return Scaffold(
-        appBar: AppBar(
-          title: Image.asset('assets/images/logo_transparent.png'),
-        ),
-        body: Form(
-          key: _formkey,
-          child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.all(20),
-              // height: MediaQuery.of(context).size.height,
-              // width: MediaQuery.of(context).size.width,
-        
-              child: Column(
-                children: [
-                  Container(
-                    child: Center(
-                      child: InkWell(
-                        splashColor: Colors.white,
-                        onTap: () {},
-                        // child: Ink.image(image: NetworkImage('assets/images/logo.png')),
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          height: 100,
-                          width: 100,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                  ),
-        
-                  Container(
-                    //align the item to left
-                    alignment: Alignment.topLeft,
-                    child: Text('Name',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-        
-                  SizedBox(
-                    height: 10,
-                  ),
-        
-                  TextField(
-                    // controller: _nameController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.person),
-                      labelText: 'Full Name',
-                      contentPadding: EdgeInsets.all(10),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    //align the item to left
-                    alignment: Alignment.topLeft,
-                    child: Text('Email',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.email_outlined),
-                      labelText: 'Email',
-                    ),
-                  ),
-                    SizedBox(height: 20),
-                  Container(
-                    //align the item to left
-                    alignment: Alignment.topLeft,
-                    child: Text('About Me',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                  SizedBox(height: 20),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.face_retouching_natural),
-                      labelText: 'Share Your fitness goals',
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    //align the item to left
-                    alignment: Alignment.topLeft,
-                    child: Text('Height' + ' (cm)',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                  SizedBox(height: 20),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.height_sharp),
-                      labelText: 'Height',
-                    ),
-                  ),
+        body: SingleChildScrollView(
+            child: Stack(
+      children: [
+    
+        Center(
+          child: Container(
+
+            // margin: EdgeInsets.only(bottom: 10),
+            height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.all(20),
+            child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                //  Text(${success}), 
+         
                 
-                  SizedBox(height: 20),
-                  Container(
-                    //align the item to left
-                    alignment: Alignment.topLeft,
-                    child: Text('Weight' + ' (lbs)',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                  //create a dropdown button
+                Container(
+                    margin: EdgeInsets.only(top: 20),
+                    alignment: Alignment.topCenter,
+                    child: const Text(
+                      "Create new Account",
+                      style: TextStyle(
+                          fontFamily: 'Arial',
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    )),
+                const SizedBox(height: 60,),
+                TextField(
+                    controller: _userNameController,
+                    // autofocus: true,
+                    //  enabled: false,
+                    // maxLength: 3,
+                    decoration: const InputDecoration(
+                      filled: true,
+                      // fillColor: Colors.pink,
+                     label: Text('Email'),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange),
+                        borderRadius: BorderRadius.all(Radius.circular(100)),
+
+                      ),
+
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.purple),
+                        borderRadius: BorderRadius.all(Radius.circular(100)),
+                      ),
+                      // prefix: Icon(Icons.person),//displays only after focus
+                      prefixIcon: Icon(Icons.person), //displays always
+                      // suffix: Text("Test"),
+                      // suffixIcon: Icon(Icons.person),
+                      // labelText: "Username",
+                      // label: Text("Username"),
+                    )),
+                   const  SizedBox(height: 50,),
                   TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.monitor_weight_outlined),
-                      labelText: 'Weight',
+                    controller: _passwordController,
+                  style: const TextStyle(color: Colors.red),
+                  obscureText:  obscureText,
+                  decoration:  InputDecoration(
+                    prefixIcon: Icon(Icons.lock),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange),
+                        borderRadius: BorderRadius.all(Radius.circular(100)),
+
+                      ),
+
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.purple),
+                        borderRadius: BorderRadius.all(Radius.circular(100)),
+                      
                     ),
-                  ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: DropdownButton(
-                      hint: Text('Select your age'),
-                      // value: _selectedAge,
-                      onChanged: (newValue) {
+                    //click on eye icon to toggle password visibility
+                    suffix:GestureDetector(
+
+                      child: obscureText? Icon
+                      (CupertinoIcons.eye_slash) : Icon(CupertinoIcons.eye) ,
+                      onTap:(){
                         setState(() {
-                          // _selectedAge = newValue;
-                        });
-                      },
-                      items: numbers.map((age) {
-                        return DropdownMenuItem(
-                          child: new Text(age.toString()),
-                          value: age,
-                        );
-                      }).toList(),
+                          obscureText= !obscureText;
+                          
+                      });},
                     ),
+                    label: Text("Password"),
                   ),
-                  Container(
-                    child: ElevatedButton(
+                ),
+                const SizedBox(height: 70,),
+                // MaterialButton(onPressed: onPressed),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100)),
+                       
+                      ),
                       onPressed: () {
-                        // submit the form
-                        if (_formkey.currentState!.validate()) {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-                         
-                        }
+                      _register();
                       },
-                      child: Text('Sign Up'),
-                    )
-                  )
-                ],
-              ),
-            ),
-          ),
-        ));
-  }
+                      child: const Text("Sign Up")),
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+               
+              ],   
+              //display success or failure message
+            
+        ),)
+            )],
+    )));
+}
 }

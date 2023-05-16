@@ -1,6 +1,7 @@
+import 'package:fitlife/Fitness/Fitness.dart';
 import 'package:fitlife/Screens/home.dart';
 import 'package:fitlife/Screens/Profile/profile.dart';
-import 'package:fitlife/Signup/sign_up.dart';
+import 'package:fitlife/Signup/user_details.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class bottom_navigation extends StatefulWidget {
 class _bottom_navigationState extends State<bottom_navigation> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[    Home(),    SignUp(),    Profile(),  ];
+  static const List<Widget> _widgetOptions = <Widget>[    Home(),    FitnessVideo(),    Profile(),  ];
 
   void _onItemTapped(int index) {
     setState(() {

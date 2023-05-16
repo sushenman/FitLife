@@ -1,19 +1,54 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:fitlife/Screens/bottom_navigation.dart';
+import '../../Firebase/firebase_options.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
+  
   const LoginScreen({Key? key}) : super(key: key);
+  
   @override
   State<StatefulWidget> createState() {
     return _MyLoginPageState();
+    
   }
 }
 
 class _MyLoginPageState extends State<LoginScreen> {
+ 
   TextEditingController _userNameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   bool obscureText= true;
+  
+  void dispose(){
+    _userNameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+  //firebase auth
+  Login(){
+    FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: _userNameController.text,
+      password: _passwordController.text,
+    ).then((value) => {
+      print("Logged In"),
+      //check to see if the user is verified
+      if(value.user!.emailVerified)
+      {
+        print("Email is verified"),
+         Navigator.push(context, MaterialPageRoute(builder: (context)=>bottom_navigation()))
+ 
+      }
+      else{
+        print("Email is not verified"),
+      },
+        }).catchError((e){
+      print(e);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,7 +144,7 @@ class _MyLoginPageState extends State<LoginScreen> {
                   height: 50,
                   child: ElevatedButton(
                       onPressed: () {
-                        print("Login");
+                       Login();
                       },
                       child: const Text("Login")),
                 ),
