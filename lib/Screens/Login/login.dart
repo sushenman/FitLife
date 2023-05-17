@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../Signup/user_details.dart';
+import '../home.dart';
 
 class LoginScreen extends StatefulWidget {
   
@@ -41,7 +42,8 @@ class _MyLoginPageState extends State<LoginScreen> {
       if(value.user!.emailVerified)
       {
         print("Email is verified"),
-         Navigator.push(context, MaterialPageRoute(builder: (context)=>UserDetails()))
+        //navigate and disable the back button
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const UserDetails()), (route) => false),
  
       }
       else{

@@ -12,8 +12,18 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+   int counter=0;
   @override
   Widget build(BuildContext context) {
+
+    //increase the counter value
+    void incrementCounter(){
+      setState(() {
+       
+        counter++;
+
+      });
+    }
     return Scaffold(
       
       body: ListView(
@@ -289,10 +299,13 @@ class _HomeState extends State<Home> {
                             Container(
                               child: Row(
                                 children: [
-                                  Text('0 ' + 'glasses',
+                                  //display the counter variable 
+                                  Text ( '$counter' + ' glass',
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 18,
                                           fontWeight: FontWeight.bold)),
+                                
+
                                 ],
                               ),
                             ),
@@ -306,7 +319,10 @@ class _HomeState extends State<Home> {
                             Container(
                               margin: EdgeInsets.only(left: 10),
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                               incrementCounter();
+                               print(counter);
+                                },
                                 child: Icon(Icons.add),
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.white,
@@ -318,7 +334,19 @@ class _HomeState extends State<Home> {
                                 Container(
                               // margin: EdgeInsets.only(left: 10),
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    if(counter > 0)
+                                    {
+counter--;
+                                    }
+                                    else
+                                    {
+                                      counter = 0;
+                                    }
+                                    
+                                  });
+                                },
                                 child: Icon(Icons.remove),
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.white,

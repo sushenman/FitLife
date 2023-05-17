@@ -10,7 +10,9 @@ import 'package:fitlife/Screens/Login/loginorsignup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Firebase/firebase_options.dart';
 import 'Fitness/Fitness.dart';
+import 'Screens/DatePicker/datepicker.dart';
 import 'Signup/sign_up.dart';
+
 void main() async{
   
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
         //add theme
 
         body: Center(
-          child: loginorsignup(),
+          child: MyDatePicker(),
          //add theme
         ),
       ),
