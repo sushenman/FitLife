@@ -1,5 +1,7 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -19,12 +21,24 @@ class _UserDetailsState extends State<UserDetails> {
   TextEditingController _ageController = TextEditingController();
   TextEditingController _heightController = TextEditingController();
   TextEditingController _weightController = TextEditingController();
-
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+   String userId = FirebaseAuth.instance.currentUser!.uid;
+  void addUserData(){
+    _firestore.collection('users').doc(userId).set({
+      'name': _nameController.text,
+      'aboutme': _aboutmeController.text,
+      'age': _ageController.text,
+      'height': _heightController.text,
+      'weight': _weightController.text,
+    });
+  }
   @override
   Widget build(BuildContext context) {
     //create an function to store 1 to 100
-    List<int> numbers = List.generate(100, (index) => index + 1);
+    List<int> numbers = List.generate(100, (index) => index + 10);
   final _formkey = GlobalKey<FormState>();
+  //get the user id
+
     return Scaffold(
        
         body: Form(
@@ -76,7 +90,7 @@ class _UserDetailsState extends State<UserDetails> {
                       contentPadding: EdgeInsets.all(10),
                     ),
                   ),
-               
+                
                     SizedBox(height: 20),
                   Container(
                     //align the item to left
@@ -154,10 +168,7 @@ class _UserDetailsState extends State<UserDetails> {
                     child: ElevatedButton(
                       onPressed: () {
                         // submit the form
-                        if (_formkey.currentState!.validate()) {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-                         
-                        }
+                        addUserData();
                       },
                       child: Text('Sign Up'),
                     )

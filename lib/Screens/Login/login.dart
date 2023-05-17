@@ -6,6 +6,8 @@ import '../../Firebase/firebase_options.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../Signup/user_details.dart';
+
 class LoginScreen extends StatefulWidget {
   
   const LoginScreen({Key? key}) : super(key: key);
@@ -39,7 +41,7 @@ class _MyLoginPageState extends State<LoginScreen> {
       if(value.user!.emailVerified)
       {
         print("Email is verified"),
-         Navigator.push(context, MaterialPageRoute(builder: (context)=>bottom_navigation()))
+         Navigator.push(context, MaterialPageRoute(builder: (context)=>UserDetails()))
  
       }
       else{

@@ -12,6 +12,7 @@ import 'Firebase/firebase_options.dart';
 import 'Fitness/Fitness.dart';
 import 'Signup/sign_up.dart';
 void main() async{
+  
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         //add theme
 
         body: Center(
-          child: UserDetails(),
+          child: loginorsignup(),
          //add theme
         ),
       ),
