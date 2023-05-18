@@ -1,8 +1,6 @@
 import 'package:fitlife/Fitness/Fitness.dart';
 import 'package:fitlife/Screens/home.dart';
 import 'package:fitlife/Screens/Profile/profile.dart';
-import 'package:fitlife/Signup/user_details.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 class bottom_navigation extends StatefulWidget {

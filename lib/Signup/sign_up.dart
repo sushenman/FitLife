@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitlife/Signup/user_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -22,25 +22,44 @@ class _SignUpState extends State<SignUp> {
     _passwordController.dispose();
     super.dispose();
   }
-  Future<void> _register() async {
-    try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _userNameController.text,
-        password: _passwordController.text,
-          );
-   //send email verification
-   await userCredential.user!.sendEmailVerification();   
+ Future<void> _register() async {
+  try {
+    UserCredential userCredential =
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: _userNameController.text,
+      password: _passwordController.text,
+    );
+    
+    // Send email verification
+    await userCredential.user!.sendEmailVerification();
 
-   
-      //display in screen that registration is successful
-      var success= 'Registration Successful: ${userCredential.user}';
-    } on FirebaseAuthException catch (e) {
-      // Registration failed, handle the error scenario here
-      print('Registration Failed: $e');
-      var success= 'Registration Failed: $e';
+    // Display a success message
+    var success = 'Registration Successful: ${userCredential.user}';
+
+    // Check if the email is already verified
+    if (userCredential.user!.emailVerified) {
+      // Navigate to another page
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => UserDetails(),
+        ),
+      );
+    } else {
+      // Show a snackbar message asking the user to verify their email
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please verify your email address'),
+        ),
+      );
     }
+  } on FirebaseAuthException catch (e) {
+    // Registration failed, handle the error scenario here
+    print('Registration Failed: $e');
+    var success = 'Registration Failed: $e';
   }
+}
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

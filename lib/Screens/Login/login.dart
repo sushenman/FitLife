@@ -1,58 +1,79 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:fitlife/Screens/bottom_navigation.dart';
-import '../../Firebase/firebase_options.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../Signup/user_details.dart';
-import '../home.dart';
 
 class LoginScreen extends StatefulWidget {
-  
-  const LoginScreen({Key? key}) : super(key: key);
-  
-  @override
-  State<StatefulWidget> createState() {
-    return _MyLoginPageState();
-    
-  }
+
+const LoginScreen({Key? key}) : super(key: key);
+
+@override
+State<StatefulWidget> createState() {
+return _MyLoginPageState();
+
+}
 }
 
 class _MyLoginPageState extends State<LoginScreen> {
- 
-  TextEditingController _userNameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  bool obscureText= true;
+
+TextEditingController _userNameController = TextEditingController();
+TextEditingController _passwordController = TextEditingController();
+bool obscureText= true;
+bool isFirstLogin = false; // Add the isFirstLogin variable
+
+void dispose(){
+_userNameController.dispose();
+_passwordController.dispose();
+super.dispose();
+}
+//firebase auth
+Login() async { // Add async keyword to use await
+FirebaseAuth.instance.signInWithEmailAndPassword(
+email: _userNameController.text,
+password: _passwordController.text,
+).then((value) async {
+print("Logged In");
+  // Check the user's login history from SharedPreferences
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool wasFirstLogin = prefs.getBool('firstLogin') ?? true;
   
-  void dispose(){
-    _userNameController.dispose();
-    _passwordController.dispose();
-    super.dispose();
+  if (wasFirstLogin) {
+    isFirstLogin = true;
+    // Store the updated login history
+    await prefs.setBool('firstLogin', false);
+  } else {
+    isFirstLogin = false;
   }
-  //firebase auth
-  Login(){
-    FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _userNameController.text,
-      password: _passwordController.text,
-    ).then((value) => {
-      print("Logged In"),
-      //check to see if the user is verified
-      if(value.user!.emailVerified)
-      {
-        print("Email is verified"),
-        //navigate and disable the back button
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> const UserDetails()), (route) => false),
- 
-      }
-      else{
-        print("Email is not verified"),
-      },
-        }).catchError((e){
-      print(e);
-    });
+  
+  // Check if the user is verified and navigate accordingly
+  if (value.user!.emailVerified) {
+    print("Email is verified");
+    
+    if (isFirstLogin) {
+      // Navigate to the first login page
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => UserDetails()), // Replace FirstLoginPage with your actual first login page
+        (route) => false,
+      );
+    } else {
+      // Navigate to the home page
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => bottom_navigation()),
+        (route) => false,
+      );
+    }
+  } else {
+    print("Email is not verified");
   }
+}).catchError((e){
+  print(e);
+});
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

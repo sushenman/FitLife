@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitlife/Screens/Login/login.dart';
 import 'package:fitlife/Screens/bottom_navigation.dart';
+import 'package:fitlife/Screens/home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-import '../Screens/home.dart';
 
 class UserDetails extends StatefulWidget {
   const UserDetails({Key? key});
@@ -52,6 +51,9 @@ class _UserDetailsState extends State<UserDetails> {
 
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('User Details'),
+      ),
       body: Form(
         key: _formkey,
         child: SingleChildScrollView(

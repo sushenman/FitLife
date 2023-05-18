@@ -1,7 +1,5 @@
-import 'package:fitlife/Screens/Login/loginorsignup.dart';
-import 'package:fitlife/Screens/bottom_navigation.dart';
 import 'package:fitlife/Screens/Profile/profile.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:fitlife/Screens/step_counter.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -138,7 +136,7 @@ class _HomeState extends State<Home> {
             ),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Profile()));
+                  context, MaterialPageRoute(builder: (context) => StepCounter()));
             },
           ),
 
@@ -197,8 +195,7 @@ class _HomeState extends State<Home> {
                                 onPressed: () {},
                                 child: Icon(Icons.add),
                                 style: ElevatedButton.styleFrom(
-                                  primary: Colors.white,
-                                  onPrimary: Colors.black,
+                                  foregroundColor: Colors.black, backgroundColor: Colors.white,
                                   shape: CircleBorder(),
                                 ),
                               ),
@@ -325,8 +322,7 @@ class _HomeState extends State<Home> {
                                 },
                                 child: Icon(Icons.add),
                                 style: ElevatedButton.styleFrom(
-                                  primary: Colors.white,
-                                  onPrimary: Colors.black,
+                                  foregroundColor: Colors.black, backgroundColor: Colors.white,
                                   shape: CircleBorder(),
                                 ),
                               ),
@@ -349,8 +345,7 @@ counter--;
                                 },
                                 child: Icon(Icons.remove),
                                 style: ElevatedButton.styleFrom(
-                                  primary: Colors.white,
-                                  onPrimary: Colors.black,
+                                  foregroundColor: Colors.black, backgroundColor: Colors.white,
                                   shape: CircleBorder(),
                                 ),
                               ),

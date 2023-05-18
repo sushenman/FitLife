@@ -1,10 +1,5 @@
 import 'package:fitlife/Screens/Login/login.dart';
-import 'package:fitlife/Screens/bottom_navigation.dart';
-import 'package:fitlife/Screens/home.dart';
-import 'package:fitlife/Signup/user_details.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fitlife/Screens/Login/login.dart';
 
 import '../../Signup/sign_up.dart';
 
