@@ -64,7 +64,7 @@ class _StepCounterState extends State<StepCounter> {
                             child: Container(
                            color: Colors.transparent,
                                      
-                                child:  ProgressBar(stepCount: 0),
+                                child:  ProgressBar(),
                              
                               ),
                             ),

@@ -1,4 +1,5 @@
 import 'package:fitlife/Screens/Login/login.dart';
+import 'package:fitlife/Screens/Login/loginorsignup.dart';
 import 'package:fitlife/Screens/step_counter.dart';
 
 import 'package:flutter/material.dart';
@@ -21,10 +22,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        //add theme
-
         body: Center(
-          child: LoginScreen(),
+          child: loginorsignup(),
           //add theme
         ),
       ),
